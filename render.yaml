@@ -1,0 +1,47 @@
+services:
+  # ---- AI Server (Python + YOLO model) ----
+  - type: web
+    name: fruit-grading-ai
+    runtime: python
+    region: singapore
+    plan: starter
+    rootDir: ai-server
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+
+  # ---- Backend (Node.js + Socket.io) ----
+  - type: web
+    name: fruit-grading-backend
+    runtime: node
+    region: singapore
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node src/index.js
+    envVars:
+      - key: NODE_VERSION
+        value: "20.11.0"
+      - key: CORS_ORIGIN
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+
+  # ---- Frontend (Next.js) ----
+  - type: web
+    name: fruit-grading-frontend
+    runtime: node
+    region: singapore
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "20.11.0"
+      - key: NEXT_PUBLIC_AI_SERVER_URL
+        sync: false
+      - key: NEXT_PUBLIC_BACKEND_URL
+        sync: false
