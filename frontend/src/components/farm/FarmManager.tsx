@@ -71,12 +71,12 @@ export default function FarmManager() {
   };
 
   return (
-    <div className="p-5 space-y-4">
-      <h2 className="text-lg font-bold text-primary tracking-tight">{t.farms.title}</h2>
+    <div className="p-3 sm:p-5 space-y-3 sm:space-y-4">
+      <h2 className="text-base sm:text-lg font-bold text-primary tracking-tight">{t.farms.title}</h2>
 
       {/* Active Farm Indicator */}
       {activeFarm && (
-        <div className="glass p-4 glow-gradeA animate-fade-in">
+        <div className="glass p-3 sm:p-4 glow-gradeA animate-fade-in">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 rounded-full bg-[#34c759] animate-pulse" />
@@ -95,14 +95,14 @@ export default function FarmManager() {
       )}
 
       {/* Add Farm */}
-      <div className="glass p-4 space-y-3">
+      <div className="glass p-3 sm:p-4 space-y-2.5 sm:space-y-3">
         <p className="text-[11px] text-muted uppercase tracking-widest font-semibold">{t.farms.addFarm}</p>
-        <div className="flex gap-2">
-          <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder={t.farms.farmName} className="apple-input apple-input-sm flex-1" />
-          <input type="text" value={newLocation} onChange={(e) => setNewLocation(e.target.value)} placeholder={t.farms.location} className="apple-input apple-input-sm flex-1" />
+        <div className="flex flex-col sm:flex-row gap-2">
+          <input type="text" value={newName} onChange={(e) => setNewName(e.target.value)} placeholder={t.farms.farmName} className="apple-input apple-input-mobile flex-1 min-w-0" />
+          <input type="text" value={newLocation} onChange={(e) => setNewLocation(e.target.value)} placeholder={t.farms.location} className="apple-input apple-input-mobile flex-1 min-w-0" />
         </div>
-        <input type="text" value={newContact} onChange={(e) => setNewContact(e.target.value)} placeholder={t.farms.contact} className="apple-input apple-input-sm w-full" />
-        <button onClick={addFarm} className="btn-primary btn-sm w-full">{t.farms.addFarm}</button>
+        <input type="text" value={newContact} onChange={(e) => setNewContact(e.target.value)} placeholder={t.farms.contact} className="apple-input apple-input-mobile w-full" />
+        <button onClick={addFarm} className="btn-primary btn-sm-mobile w-full">{t.farms.addFarm}</button>
       </div>
 
       {/* Farm List */}
@@ -112,46 +112,51 @@ export default function FarmManager() {
         </div>
       ) : (
         <div className="space-y-2">
-          {farms.map((farm) => (
-            <div
-              key={farm._id}
-              className={`glass glass-hover cursor-pointer ${selectedFarm === farm._id ? 'glow-gradeB' : ''}`}
-              style={{ padding: '14px 16px' }}
-              onClick={() => setSelectedFarm(farm._id === selectedFarm ? null : farm._id)}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <p className="text-sm font-semibold text-primary">{farm.name}</p>
-                    {activeFarm?._id === farm._id && (
-                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#34c759]/15 text-[#34c759]">ACTIVE</span>
-                    )}
+          {farms.map((farm) => {
+            const isSelected = selectedFarm === farm._id;
+            const isActive = activeFarm?._id === farm._id;
+            return (
+              <div
+                key={farm._id}
+                className={`glass glass-hover cursor-pointer transition-all duration-300 p-3 sm:p-4 ${isSelected ? 'glow-gradeB scale-[1.01]' : ''} ${isActive ? 'ring-2 ring-[#34c759]/40' : ''}`}
+                onClick={() => setSelectedFarm(farm._id === selectedFarm ? null : farm._id)}
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="text-sm font-semibold text-primary truncate">{farm.name}</p>
+                      {isActive && (
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#34c759]/15 text-[#34c759] shrink-0">ACTIVE</span>
+                      )}
+                    </div>
+                    {farm.location && <p className="text-[11px] text-muted mt-0.5 truncate">{farm.location}</p>}
+                    {farm.contact && <p className="text-[11px] text-muted truncate">{farm.contact}</p>}
                   </div>
-                  {farm.location && <p className="text-[11px] text-muted mt-0.5">{farm.location}</p>}
-                  {farm.contact && <p className="text-[11px] text-muted">{farm.contact}</p>}
-                </div>
-                <div className="flex items-center gap-2">
-                  {activeFarm?._id !== farm._id && (
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    {!isActive && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); setActiveFarm({ _id: farm._id, name: farm.name, location: farm.location, contact: farm.contact }); }}
+                        className="text-[11px] sm:text-[11px] font-semibold px-3 py-2 sm:px-2.5 sm:py-1 rounded-full transition-all active:scale-95"
+                        style={{ color: 'var(--accent)', background: 'rgba(10, 132, 255, 0.12)', minHeight: '36px' }}
+                      >
+                        {t.farms.setActive}
+                      </button>
+                    )}
                     <button
-                      onClick={(e) => { e.stopPropagation(); setActiveFarm({ _id: farm._id, name: farm.name, location: farm.location, contact: farm.contact }); }}
-                      className="text-[11px] font-medium px-2.5 py-1 rounded-full transition-all"
-                      style={{ color: 'var(--accent)', background: 'rgba(10, 132, 255, 0.1)' }}
+                      onClick={(e) => { e.stopPropagation(); deleteFarm(farm._id); }}
+                      className="text-muted hover:text-[#ff453a] transition-colors flex items-center justify-center rounded-full active:scale-90"
+                      style={{ minWidth: '36px', minHeight: '36px' }}
+                      aria-label="Delete farm"
                     >
-                      {t.farms.setActive}
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
                     </button>
-                  )}
-                  <button
-                    onClick={(e) => { e.stopPropagation(); deleteFarm(farm._id); }}
-                    className="text-muted hover:text-[#ff453a] transition-colors"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                  </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 
@@ -159,7 +164,7 @@ export default function FarmManager() {
       {selectedFarm && (
         <div className="space-y-4 animate-slide-up">
           {farmStats && farmStats.total > 0 && (
-            <div className="glass p-4 space-y-2">
+            <div className="glass p-3 sm:p-4 space-y-2">
               <p className="text-[11px] text-muted uppercase tracking-widest font-semibold">Farm Grade Breakdown</p>
               <div className="grid grid-cols-3 gap-2">
                 {Object.entries(farmStats.grades).map(([grade, count]) => (
@@ -173,23 +178,23 @@ export default function FarmManager() {
             </div>
           )}
 
-          <div className="glass p-4 space-y-3">
+          <div className="glass p-3 sm:p-4 space-y-2.5 sm:space-y-3">
             <p className="text-[11px] text-muted uppercase tracking-widest font-semibold">{t.farms.addBatch}</p>
-            <div className="flex gap-2">
-              <div className="flex-1">
+            <div className="flex flex-col sm:flex-row gap-2">
+              <div className="flex-1 min-w-0">
                 <label className="text-[11px] text-muted">{t.farms.dateFrom}</label>
-                <input type="date" value={batchFrom} onChange={(e) => setBatchFrom(e.target.value)} className="apple-input apple-input-sm w-full mt-1" />
+                <input type="date" value={batchFrom} onChange={(e) => setBatchFrom(e.target.value)} className="apple-input apple-input-mobile w-full mt-1" />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 min-w-0">
                 <label className="text-[11px] text-muted">{t.farms.dateTo}</label>
-                <input type="date" value={batchTo} onChange={(e) => setBatchTo(e.target.value)} className="apple-input apple-input-sm w-full mt-1" />
+                <input type="date" value={batchTo} onChange={(e) => setBatchTo(e.target.value)} className="apple-input apple-input-mobile w-full mt-1" />
               </div>
             </div>
-            <button onClick={addBatch} className="btn-primary btn-sm w-full">{t.farms.addBatch}</button>
+            <button onClick={addBatch} className="btn-primary btn-sm-mobile w-full">{t.farms.addBatch}</button>
           </div>
 
           {batches.length > 0 && (
-            <div className="glass p-4 space-y-2">
+            <div className="glass p-3 sm:p-4 space-y-2">
               <p className="text-[11px] text-muted uppercase tracking-widest font-semibold">{t.farms.batchHistory}</p>
               {batches.map((batch) => (
                 <div key={batch._id} className="rounded-[10px] p-2.5" style={{ background: 'var(--bg-input)' }}>

@@ -252,9 +252,30 @@
     border-radius: var(--radius-xs);
   }
 
+  /* ── Responsive helpers: full-size on mobile, compact ≥640px ── */
+  /* Inputs/buttons in dense panels (like FarmManager) stay finger-
+     friendly on phones and shrink to compact on desktop. */
+
   /* ── Safe area ─────────────────────────────────────── */
   .safe-area-bottom {
     padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+/* ── Responsive helpers: finger-friendly on mobile, compact ≥640px ── */
+/* On phones these classes are no-ops (parent .apple-input / .btn-primary
+   stay at 44px-friendly size). On sm+ they shrink to the dense size. */
+@media (min-width: 640px) {
+  .apple-input-mobile {
+    padding: 7px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+  .btn-sm-mobile {
+    padding: 7px 14px;
+    font-size: 13px;
+    min-height: 34px;
+    border-radius: var(--radius-xs);
   }
 }
 
