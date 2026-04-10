@@ -9,11 +9,26 @@ export interface Translations {
     modelSelector: string;
     language: string;
   };
+  mobileTabs: {
+    scanner: string;
+    analytics: string;
+    controls: string;
+    farms: string;
+  };
   grades: {
-    damaged: string;
-    old: string;
-    ripe: string;
+    gradeA: string;
+    gradeB: string;
+    gradeC: string;
     unripe: string;
+    rotten: string;
+    wilted: string;
+  };
+  defects: {
+    crack: string;
+    blackSpot: string;
+    bruise: string;
+    spoilage: string;
+    none: string;
   };
   analytics: {
     title: string;
@@ -22,6 +37,8 @@ export interface Translations {
     totalProcessed: string;
     gradeBreakdown: string;
     noDetection: string;
+    revenueEstimate: string;
+    defectCause: string;
   };
   scanner: {
     title: string;
@@ -35,6 +52,7 @@ export interface Translations {
     permissionDenied: string;
     tomatoDetected: string;
     noFruitDetected: string;
+    viewOnly: string;
   };
   controls: {
     title: string;
@@ -53,6 +71,41 @@ export interface Translations {
     running: string;
     stopped: string;
   };
+  farms: {
+    title: string;
+    addFarm: string;
+    farmName: string;
+    location: string;
+    contact: string;
+    addBatch: string;
+    dateFrom: string;
+    dateTo: string;
+    noFarms: string;
+    batchHistory: string;
+    setActive: string;
+    activeFarm: string;
+    origin: string;
+  };
+  chatbot: {
+    title: string;
+    placeholder: string;
+    send: string;
+  };
+  notifications: {
+    anomalyTitle: string;
+    anomalyBody: string;
+    dismiss: string;
+  };
+  notificationLog: {
+    title: string;
+    searchPlaceholder: string;
+    all: string;
+    gradings: string;
+    alerts: string;
+    entries: string;
+    empty: string;
+    threshold: string;
+  };
 }
 
 const en: Translations = {
@@ -64,11 +117,26 @@ const en: Translations = {
     modelSelector: 'AI Model',
     language: 'Language',
   },
+  mobileTabs: {
+    scanner: 'Scanner',
+    analytics: 'Analytics',
+    controls: 'Controls',
+    farms: 'Farms',
+  },
   grades: {
-    damaged: 'Damaged',
-    old: 'Old',
-    ripe: 'Ripe',
+    gradeA: 'Grade A',
+    gradeB: 'Grade B',
+    gradeC: 'Grade C',
     unripe: 'Unripe',
+    rotten: 'Rotten',
+    wilted: 'Wilted',
+  },
+  defects: {
+    crack: 'Crack',
+    blackSpot: 'Black Spot',
+    bruise: 'Bruise',
+    spoilage: 'Spoilage',
+    none: 'No defect',
   },
   analytics: {
     title: 'Analytics',
@@ -77,6 +145,8 @@ const en: Translations = {
     totalProcessed: 'Total Processed',
     gradeBreakdown: 'Grade Breakdown',
     noDetection: 'No detection yet',
+    revenueEstimate: 'Revenue Estimate',
+    defectCause: 'Defect Cause',
   },
   scanner: {
     title: 'Scanning Hub',
@@ -90,6 +160,7 @@ const en: Translations = {
     permissionDenied: 'Camera permission denied',
     tomatoDetected: 'Tomato detected',
     noFruitDetected: 'No tomato detected — point camera at a real tomato',
+    viewOnly: 'View-only mode — camera disabled on mobile',
   },
   controls: {
     title: 'Machine Control',
@@ -108,6 +179,41 @@ const en: Translations = {
     running: 'Running',
     stopped: 'Stopped',
   },
+  farms: {
+    title: 'Farm Management',
+    addFarm: 'Add Farm',
+    farmName: 'Farm Name',
+    location: 'Location',
+    contact: 'Contact',
+    addBatch: 'Add Batch',
+    dateFrom: 'From',
+    dateTo: 'To',
+    noFarms: 'No farms registered yet',
+    batchHistory: 'Batch History',
+    setActive: 'Set as Active',
+    activeFarm: 'Active Farm',
+    origin: 'Origin',
+  },
+  chatbot: {
+    title: 'AI Assistant',
+    placeholder: 'Ask about markets, grades, farms...',
+    send: 'Send',
+  },
+  notifications: {
+    anomalyTitle: 'Quality Alert',
+    anomalyBody: 'High {grade} rate detected: {ratio}% (threshold: {threshold}%)',
+    dismiss: 'Dismiss',
+  },
+  notificationLog: {
+    title: 'Notification Log',
+    searchPlaceholder: 'Search grades, alerts...',
+    all: 'All',
+    gradings: 'Gradings',
+    alerts: 'Alerts',
+    entries: 'entries',
+    empty: 'No events recorded yet',
+    threshold: 'threshold',
+  },
 };
 
 const th: Translations = {
@@ -119,11 +225,26 @@ const th: Translations = {
     modelSelector: 'โมเดล AI',
     language: 'ภาษา',
   },
+  mobileTabs: {
+    scanner: 'สแกน',
+    analytics: 'วิเคราะห์',
+    controls: 'ควบคุม',
+    farms: 'ฟาร์ม',
+  },
   grades: {
-    damaged: 'เสียหาย',
-    old: 'เก่า/สุกเกิน',
-    ripe: 'สุก',
+    gradeA: 'เกรด A',
+    gradeB: 'เกรด B',
+    gradeC: 'เกรด C',
     unripe: 'ดิบ',
+    rotten: 'เน่า',
+    wilted: 'เหี่ยว',
+  },
+  defects: {
+    crack: 'รอยแตก',
+    blackSpot: 'จุดดำ',
+    bruise: 'รอยช้ำ',
+    spoilage: 'เน่าเสีย',
+    none: 'ไม่มีข้อบกพร่อง',
   },
   analytics: {
     title: 'วิเคราะห์',
@@ -132,6 +253,8 @@ const th: Translations = {
     totalProcessed: 'ประมวลผลทั้งหมด',
     gradeBreakdown: 'แยกตามเกรด',
     noDetection: 'ยังไม่มีการตรวจจับ',
+    revenueEstimate: 'ประมาณการรายได้',
+    defectCause: 'สาเหตุข้อบกพร่อง',
   },
   scanner: {
     title: 'ศูนย์สแกน',
@@ -145,6 +268,7 @@ const th: Translations = {
     permissionDenied: 'ไม่ได้รับอนุญาตใช้กล้อง',
     tomatoDetected: 'ตรวจพบมะเขือเทศ',
     noFruitDetected: 'ไม่พบมะเขือเทศ — หันกล้องไปที่มะเขือเทศจริง',
+    viewOnly: 'โหมดดูอย่างเดียว — กล้องปิดบนมือถือ',
   },
   controls: {
     title: 'ควบคุมเครื่อง',
@@ -163,6 +287,41 @@ const th: Translations = {
     running: 'กำลังทำงาน',
     stopped: 'หยุดทำงาน',
   },
+  farms: {
+    title: 'จัดการฟาร์ม',
+    addFarm: 'เพิ่มฟาร์ม',
+    farmName: 'ชื่อฟาร์ม',
+    location: 'สถานที่',
+    contact: 'ติดต่อ',
+    addBatch: 'เพิ่มล็อต',
+    dateFrom: 'จาก',
+    dateTo: 'ถึง',
+    noFarms: 'ยังไม่มีฟาร์มที่ลงทะเบียน',
+    batchHistory: 'ประวัติล็อต',
+    setActive: 'ตั้งเป็นฟาร์มที่ใช้งาน',
+    activeFarm: 'ฟาร์มที่ใช้งาน',
+    origin: 'แหล่งที่มา',
+  },
+  chatbot: {
+    title: 'ผู้ช่วย AI',
+    placeholder: 'ถามเกี่ยวกับตลาด, เกรด, ฟาร์ม...',
+    send: 'ส่ง',
+  },
+  notifications: {
+    anomalyTitle: 'แจ้งเตือนคุณภาพ',
+    anomalyBody: 'ตรวจพบ {grade} สูง: {ratio}% (เกณฑ์: {threshold}%)',
+    dismiss: 'ปิด',
+  },
+  notificationLog: {
+    title: 'บันทึกการแจ้งเตือน',
+    searchPlaceholder: 'ค้นหาเกรด, การแจ้งเตือน...',
+    all: 'ทั้งหมด',
+    gradings: 'การจัดเกรด',
+    alerts: 'การแจ้งเตือน',
+    entries: 'รายการ',
+    empty: 'ยังไม่มีเหตุการณ์บันทึก',
+    threshold: 'เกณฑ์',
+  },
 };
 
 const zh: Translations = {
@@ -174,11 +333,26 @@ const zh: Translations = {
     modelSelector: 'AI模型',
     language: '语言',
   },
+  mobileTabs: {
+    scanner: '扫描',
+    analytics: '分析',
+    controls: '控制',
+    farms: '农场',
+  },
   grades: {
-    damaged: '损坏',
-    old: '过熟',
-    ripe: '成熟',
+    gradeA: 'A级',
+    gradeB: 'B级',
+    gradeC: 'C级',
     unripe: '未熟',
+    rotten: '腐烂',
+    wilted: '枯萎',
+  },
+  defects: {
+    crack: '裂纹',
+    blackSpot: '黑斑',
+    bruise: '瘀伤',
+    spoilage: '腐烂',
+    none: '无缺陷',
   },
   analytics: {
     title: '分析',
@@ -187,6 +361,8 @@ const zh: Translations = {
     totalProcessed: '总处理量',
     gradeBreakdown: '等级分布',
     noDetection: '尚未检测',
+    revenueEstimate: '收入估算',
+    defectCause: '缺陷原因',
   },
   scanner: {
     title: '扫描中心',
@@ -200,6 +376,7 @@ const zh: Translations = {
     permissionDenied: '相机权限被拒绝',
     tomatoDetected: '检测到番茄',
     noFruitDetected: '未检测到番茄 — 请将镜头对准真实番茄',
+    viewOnly: '仅查看模式 — 手机上禁用相机',
   },
   controls: {
     title: '机器控制',
@@ -217,6 +394,41 @@ const zh: Translations = {
     proprietaryOnly: '仅限专有硬件使用控制功能',
     running: '运行中',
     stopped: '已停止',
+  },
+  farms: {
+    title: '农场管理',
+    addFarm: '添加农场',
+    farmName: '农场名称',
+    location: '位置',
+    contact: '联系方式',
+    addBatch: '添加批次',
+    dateFrom: '从',
+    dateTo: '到',
+    noFarms: '尚未注册农场',
+    batchHistory: '批次历史',
+    setActive: '设为活跃',
+    activeFarm: '活跃农场',
+    origin: '来源',
+  },
+  chatbot: {
+    title: 'AI助手',
+    placeholder: '询问市场、等级、农场...',
+    send: '发送',
+  },
+  notifications: {
+    anomalyTitle: '质量警报',
+    anomalyBody: '检测到高{grade}率: {ratio}% (阈值: {threshold}%)',
+    dismiss: '关闭',
+  },
+  notificationLog: {
+    title: '通知日志',
+    searchPlaceholder: '搜索等级、警报...',
+    all: '全部',
+    gradings: '分级',
+    alerts: '警报',
+    entries: '条记录',
+    empty: '暂无事件记录',
+    threshold: '阈值',
   },
 };
 

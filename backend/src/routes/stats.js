@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
         .lean(),
     ]);
 
-    const grades = { damaged: 0, old: 0, ripe: 0, unripe: 0 };
+    const grades = { gradeA: 0, gradeB: 0, gradeC: 0, unripe: 0, rotten: 0, wilted: 0 };
     gradeCounts.forEach(({ _id, count }) => {
       grades[_id] = count;
     });
@@ -45,8 +45,8 @@ router.get('/', async (req, res) => {
 // POST /api/stats - Record a new grading result
 router.post('/', async (req, res) => {
   try {
-    const { fruitType, grade, confidence, modelUsed } = req.body;
-    const record = await GradingRecord.create({ fruitType, grade, confidence, modelUsed });
+    const { fruitType, grade, confidence, modelUsed, farmOrigin, defect } = req.body;
+    const record = await GradingRecord.create({ fruitType, grade, confidence, modelUsed, farmOrigin, defect: defect || null });
 
     const io = req.app.get('io');
     io.emit('grading:new', record);

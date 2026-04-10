@@ -1,4 +1,4 @@
-import type { Grade } from '@/contexts/AppContext';
+import type { Grade, Defect } from '@/contexts/AppContext';
 
 const AI_SERVER_URL = process.env.NEXT_PUBLIC_AI_SERVER_URL || 'http://localhost:8000';
 
@@ -8,7 +8,7 @@ const AI_SERVER_URL = process.env.NEXT_PUBLIC_AI_SERVER_URL || 'http://localhost
  * Captures frames from the video element, sends them to the Python FastAPI
  * server running the trained YOLO model, and returns the classification.
  *
- * Classes: Damaged, Old, Ripe, Unripe
+ * Classes: Grade A, Grade B, Grade C, Unripe, Rotten, Wilted
  */
 
 /** Bounding box as fractions of image size: [x, y, width, height] (0-1). */
@@ -21,6 +21,7 @@ export interface GradingPrediction {
   scores: Record<Grade, number>;
   fruitType: string | null;
   bbox: BBox | null;
+  defect: Defect;
 }
 
 /**
@@ -86,12 +87,15 @@ function _mapResponse(data: any): GradingPrediction {
     grade: data.detected ? (data.grade as Grade) : null,
     confidence: data.confidence,
     scores: {
-      damaged: data.scores?.damaged ?? 0,
-      old: data.scores?.old ?? 0,
-      ripe: data.scores?.ripe ?? 0,
+      gradeA: data.scores?.gradeA ?? 0,
+      gradeB: data.scores?.gradeB ?? 0,
+      gradeC: data.scores?.gradeC ?? 0,
       unripe: data.scores?.unripe ?? 0,
+      rotten: data.scores?.rotten ?? 0,
+      wilted: data.scores?.wilted ?? 0,
     },
     fruitType: data.fruitType ?? null,
     bbox: data.bbox ?? null,
+    defect: data.defect ?? null,
   };
 }

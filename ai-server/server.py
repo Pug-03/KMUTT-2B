@@ -34,10 +34,18 @@ app.add_middleware(
 model = None
 
 CLASS_MAP = {
-    0: "damaged",
-    1: "old",
-    2: "ripe",
+    0: "gradeA",
+    1: "gradeB",
+    2: "gradeC",
     3: "unripe",
+    4: "rotten",
+    5: "wilted",
+}
+
+DEFECT_MAP = {
+    "rotten": "spoilage",
+    "wilted": "bruise",
+    "gradeC": "blackSpot",
 }
 
 
@@ -157,6 +165,7 @@ def _build_response(image: Image.Image) -> dict:
             "scores": {v: 0 for v in CLASS_MAP.values()},
             "fruitType": None,
             "bbox": None,
+            "defect": None,
         }
 
     # Classify the largest detected region
@@ -165,6 +174,8 @@ def _build_response(image: Image.Image) -> dict:
     cls = _classify_crop(crop)
 
     detected = cls["confidence"] >= CONFIDENCE_THRESHOLD
+    grade = cls["grade"] if detected else None
+    defect = DEFECT_MAP.get(grade) if detected else None
     bbox_frac = [
         round(x / img_w, 4),
         round(y / img_h, 4),
@@ -174,11 +185,12 @@ def _build_response(image: Image.Image) -> dict:
 
     return {
         "detected": detected,
-        "grade": cls["grade"] if detected else None,
+        "grade": grade,
         "confidence": cls["confidence"],
         "scores": cls["scores"],
         "fruitType": "tomato" if detected else None,
         "bbox": bbox_frac,
+        "defect": defect,
     }
 
 

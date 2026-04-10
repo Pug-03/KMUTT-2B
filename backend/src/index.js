@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const { Server } = require('socket.io');
 const statsRoutes = require('./routes/stats');
 const machineRoutes = require('./routes/machine');
+const farmRoutes = require('./routes/farms');
+const chatbotRoutes = require('./routes/chatbot');
 const { setupSocket } = require('./socket/handler');
 
 const app = express();
@@ -28,6 +30,8 @@ app.set('io', io);
 // Routes
 app.use('/api/stats', statsRoutes);
 app.use('/api/machine-control', machineRoutes);
+app.use('/api/farms', farmRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
