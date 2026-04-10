@@ -6,6 +6,7 @@ import GradeDistributionChart from '@/components/charts/GradeDistributionChart';
 import NotificationLog from '@/components/notifications/NotificationLog';
 import FarmManager from '@/components/farm/FarmManager';
 import MiniScanner from '@/components/scanner/MiniScanner';
+import GradeIcon from '@/components/ui/GradeIcon';
 
 const APPLE_GRADE_COLORS: Record<Grade, string> = {
   gradeA: '#34c759',
@@ -14,15 +15,6 @@ const APPLE_GRADE_COLORS: Record<Grade, string> = {
   unripe: '#a8d830',
   rotten: '#ff453a',
   wilted: '#bf5af2',
-};
-
-const GRADE_ICONS: Record<Grade, string> = {
-  gradeA: '\u2605',
-  gradeB: '\u25CF',
-  gradeC: '\u25B2',
-  unripe: '\u25CB',
-  rotten: '\u2715',
-  wilted: '\u25C7',
 };
 
 export default function AnalyticsDashboard() {
@@ -88,8 +80,9 @@ export default function AnalyticsDashboard() {
       {latestGrading && (
         <div className={`glass p-4 sm:p-5 flex items-center justify-between animate-scale-in glow-${latestGrading.grade}`}>
           <div className="flex items-center gap-3 flex-wrap">
-            <span className={`grade-badge grade-${latestGrading.grade} text-sm px-4 py-2`}>
-              {GRADE_ICONS[latestGrading.grade]} {t.grades[latestGrading.grade]}
+            <span className={`grade-badge grade-${latestGrading.grade} text-sm px-4 py-2 inline-flex items-center gap-1.5`}>
+              <GradeIcon grade={latestGrading.grade} size={14} />
+              {t.grades[latestGrading.grade]}
             </span>
             <span className="text-sm text-secondary">{t.scanner.tomatoDetected}</span>
             {latestGrading.defect && (
@@ -145,8 +138,9 @@ export default function AnalyticsDashboard() {
               return (
                 <div key={grade} className="group">
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-sm font-semibold" style={{ color }}>
-                      {GRADE_ICONS[grade]} {t.grades[grade]}
+                    <span className="text-sm font-semibold inline-flex items-center gap-1.5" style={{ color }}>
+                      <GradeIcon grade={grade} size={14} />
+                      {t.grades[grade]}
                     </span>
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-bold text-primary tabular-nums">{count}</span>
@@ -196,8 +190,9 @@ export default function AnalyticsDashboard() {
               const color = APPLE_GRADE_COLORS[grade];
               return (
                 <div key={grade} className="flex items-center justify-between gap-2 py-2 border-b last:border-0" style={{ borderColor: 'var(--border)' }}>
-                  <span className="text-sm font-medium shrink-0" style={{ color }}>
-                    {GRADE_ICONS[grade]} {t.grades[grade]}
+                  <span className="text-sm font-medium shrink-0 inline-flex items-center gap-1.5" style={{ color }}>
+                    <GradeIcon grade={grade} size={13} />
+                    {t.grades[grade]}
                   </span>
                   {editingPrices ? (
                     <div className="flex items-center gap-1.5">

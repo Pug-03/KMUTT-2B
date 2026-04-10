@@ -13,15 +13,22 @@ export default function TopNav() {
 
   return (
     <nav className="glass-nav px-4 sm:px-6 py-3 flex items-center justify-between gap-3 shrink-0 sticky top-0 z-40">
-      {/* Logo */}
-      <div className="flex items-center gap-3 min-w-0">
-        <div className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-green-400 to-emerald-600 rounded-[10px] flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-lg shadow-emerald-500/20">
-          FG
-        </div>
-        <div className="min-w-0">
-          <h1 className="text-sm sm:text-[15px] font-semibold text-primary truncate tracking-tight">{t.app.title}</h1>
-          <p className="text-[11px] text-muted truncate hidden sm:block">{t.app.subtitle}</p>
-        </div>
+      {/* Wordmark — no logo mark, typography only */}
+      <div className="min-w-0 leading-tight">
+        <h1 className="text-[15px] sm:text-[17px] font-bold truncate tracking-[-0.02em]">
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage: 'linear-gradient(110deg, #34c759 0%, #0a84ff 55%, #bf5af2 100%)',
+              WebkitBackgroundClip: 'text',
+            }}
+          >
+            {t.app.title}
+          </span>
+        </h1>
+        <p className="text-[10px] sm:text-[11px] text-muted truncate hidden sm:block mt-0.5 font-medium tracking-[0.02em]">
+          {t.app.subtitle}
+        </p>
       </div>
 
       {/* Controls */}
