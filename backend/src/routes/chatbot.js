@@ -24,7 +24,8 @@ const SYSTEM_PROMPT = [
   'Nearby markets: Talad Thai (Pathum Thani, wholesale), Si Mum Muang (Pathum Thani, wholesale),',
   'Or Tor Kor (Bangkok, premium), Makro Rangsit (retail), Similan Fresh Hub (Nonthaburi, distribution).',
   '',
-  'Default prices (THB/kg): Grade A=120, Grade B=80, Grade C=45, Unripe=20.',
+  'Default prices (THB/kg): Grade A=240, Grade B=180, Grade C=90, Unripe=45.',
+  'Standard tomato weight: ~150g per fruit (Grade A).',
   '',
   'Guidelines:',
   '- Be concise and professional. Use short paragraphs and bullet points.',
@@ -170,7 +171,7 @@ async function ruleBasedReply(message) {
     return 'To identify disease hotspots, use the Farms tab to tag fruit batches by farm origin. Check the farm stats to see which farm has high rotten/wilted rates, then apply targeted treatment to that zone.';
   }
   if (msg.includes('price') || msg.includes('revenue') || msg.includes('cost') || msg.includes('money')) {
-    return 'Current suggested prices (THB/kg):\n\u2022 Grade A: 120 THB/kg\n\u2022 Grade B: 80 THB/kg\n\u2022 Grade C: 45 THB/kg\n\u2022 Unripe: 20 THB/kg\n\nNote: ~6.5 fruits = 100g. You can update prices in the Analytics panel.';
+    return 'Current suggested prices (THB/kg):\n\u2022 Grade A: 240 THB/kg\n\u2022 Grade B: 180 THB/kg\n\u2022 Grade C: 90 THB/kg\n\u2022 Unripe: 45 THB/kg\n\nNote: standard tomato weight ~150g per fruit. You can update prices in the Analytics panel.';
   }
   if (msg.includes('help') || msg.includes('what can') || msg.includes('how')) {
     return 'I can help you with:\n\u2022 Finding nearby markets to sell your fruit\n\u2022 Viewing today\'s grading summary\n\u2022 Checking farm sources and disease hotspots\n\u2022 Pricing information and revenue estimates\n\nJust ask me a question!';

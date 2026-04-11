@@ -10,14 +10,14 @@ export type Grade = 'gradeA' | 'gradeB' | 'gradeC' | 'unripe' | 'rotten' | 'wilt
 
 export const ALL_GRADES: Grade[] = ['gradeA', 'gradeB', 'gradeC', 'unripe', 'rotten', 'wilted'];
 
-/** Avg weight per fruit: ~15.4g (6.5 fruits per 100g). Prices are THB/kg. */
-export const WEIGHT_PER_FRUIT_KG = 0.01538;
+/** Avg weight per fruit: 150g (standard Grade A tomato). Prices are THB/kg. */
+export const WEIGHT_PER_FRUIT_KG = 0.15;
 
 export const GRADE_PRICES: Record<Grade, number> = {
-  gradeA: 120,
-  gradeB: 80,
-  gradeC: 45,
-  unripe: 20,
+  gradeA: 240,
+  gradeB: 180,
+  gradeC: 90,
+  unripe: 45,
   rotten: 0,
   wilted: 0,
 };
