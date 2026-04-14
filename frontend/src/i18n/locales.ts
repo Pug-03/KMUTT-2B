@@ -86,6 +86,14 @@ export interface Translations {
     activeFarm: string;
     origin: string;
   };
+  weight: {
+    title: string;
+    perFruit: string;
+    variety: string;
+    custom: string;
+    grams: string;
+    region: string;
+  };
   chatbot: {
     title: string;
     placeholder: string;
@@ -193,6 +201,14 @@ const en: Translations = {
     setActive: 'Set as Active',
     activeFarm: 'Active Farm',
     origin: 'Origin',
+  },
+  weight: {
+    title: 'Fruit Weight',
+    perFruit: 'per fruit',
+    variety: 'Select Variety',
+    custom: 'Custom',
+    grams: 'g',
+    region: 'Region',
   },
   chatbot: {
     title: 'AI Assistant',
@@ -302,6 +318,14 @@ const th: Translations = {
     activeFarm: 'ฟาร์มที่ใช้งาน',
     origin: 'แหล่งที่มา',
   },
+  weight: {
+    title: 'น้ำหนักผลไม้',
+    perFruit: 'ต่อผล',
+    variety: 'เลือกสายพันธุ์',
+    custom: 'กำหนดเอง',
+    grams: 'กรัม',
+    region: 'ภูมิภาค',
+  },
   chatbot: {
     title: 'ผู้ช่วย AI',
     placeholder: 'ถามเกี่ยวกับตลาด, เกรด, ฟาร์ม...',
@@ -409,6 +433,14 @@ const zh: Translations = {
     setActive: '设为活跃',
     activeFarm: '活跃农场',
     origin: '来源',
+  },
+  weight: {
+    title: '果实重量',
+    perFruit: '每颗',
+    variety: '选择品种',
+    custom: '自定义',
+    grams: '克',
+    region: '地区',
   },
   chatbot: {
     title: 'AI助手',

@@ -24,8 +24,12 @@ const SYSTEM_PROMPT = [
   'Nearby markets: Talad Thai (Pathum Thani, wholesale), Si Mum Muang (Pathum Thani, wholesale),',
   'Or Tor Kor (Bangkok, premium), Makro Rangsit (retail), Similan Fresh Hub (Nonthaburi, distribution).',
   '',
-  'Default prices (THB/kg): Grade A=240, Grade B=180, Grade C=90, Unripe=45.',
-  'Standard tomato weight: ~150g per fruit (Grade A).',
+  'Tomato varieties (Thailand): Peach Tomato/มะเขือเทศท้อ (80-140g, ~120 THB/kg), Sida Tomato/มะเขือเทศสีดา (40-60g, ~200 THB/kg), Sisaket Tomato/มะเขือเทศศรีสะเกษ (20-30g, ~150 THB/kg).',
+  'Tomato varieties (UK): Beefsteak (200-400g, ~250 THB/kg), Marmande (180-250g, ~220 THB/kg), Costoluto (150-300g, ~230 THB/kg).',
+  'Tomato varieties (China): Big Red/大红番茄 (150-250g, ~140 THB/kg), Hard Fruit Red/硬果红番茄 (140-220g, ~150 THB/kg), Large Fruit/大果番茄 (200-350g, ~180 THB/kg).',
+  'Revenue = count × weight-range × price/kg, displayed as min–max estimate.',
+  'Grade A = 100% base price, B = 85%, C = 65%, Unripe = 25%, Rotten/Wilted = 0.',
+  'Users can adjust the base price/kg. Classifying red tomatoes by colour/ripeness only.',
   '',
   'Guidelines:',
   '- Be concise and professional. Use short paragraphs and bullet points.',
@@ -171,7 +175,7 @@ async function ruleBasedReply(message) {
     return 'To identify disease hotspots, use the Farms tab to tag fruit batches by farm origin. Check the farm stats to see which farm has high rotten/wilted rates, then apply targeted treatment to that zone.';
   }
   if (msg.includes('price') || msg.includes('revenue') || msg.includes('cost') || msg.includes('money')) {
-    return 'Current suggested prices (THB/kg):\n\u2022 Grade A: 240 THB/kg\n\u2022 Grade B: 180 THB/kg\n\u2022 Grade C: 90 THB/kg\n\u2022 Unripe: 45 THB/kg\n\nNote: standard tomato weight ~150g per fruit. You can update prices in the Analytics panel.';
+    return 'Prices are set by the selected tomato variety (adjustable):\n\n🇹🇭 Thailand:\n\u2022 Peach Tomato (มะเขือเทศท้อ): 80-140g, ~120 THB/kg\n\u2022 Sida Tomato (มะเขือเทศสีดา): 40-60g, ~200 THB/kg\n\u2022 Sisaket Tomato (มะเขือเทศศรีสะเกษ): 20-30g, ~150 THB/kg\n\n🇬🇧 UK:\n\u2022 Beefsteak: 200-400g, ~250 THB/kg\n\u2022 Marmande: 180-250g, ~220 THB/kg\n\u2022 Costoluto: 150-300g, ~230 THB/kg\n\n🇨🇳 China:\n\u2022 Big Red (大红番茄): 150-250g, ~140 THB/kg\n\u2022 Hard Fruit Red (硬果红番茄): 140-220g, ~150 THB/kg\n\u2022 Large Fruit (大果番茄): 200-350g, ~180 THB/kg\n\nGrade A = full price, B = 85%, C = 65%, Unripe = 25%.\nRevenue is estimated as a range based on the variety weight range.';
   }
   if (msg.includes('help') || msg.includes('what can') || msg.includes('how')) {
     return 'I can help you with:\n\u2022 Finding nearby markets to sell your fruit\n\u2022 Viewing today\'s grading summary\n\u2022 Checking farm sources and disease hotspots\n\u2022 Pricing information and revenue estimates\n\nJust ask me a question!';

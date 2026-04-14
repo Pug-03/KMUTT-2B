@@ -10,8 +10,110 @@ export type Grade = 'gradeA' | 'gradeB' | 'gradeC' | 'unripe' | 'rotten' | 'wilt
 
 export const ALL_GRADES: Grade[] = ['gradeA', 'gradeB', 'gradeC', 'unripe', 'rotten', 'wilted'];
 
-/** Avg weight per fruit: 150g (standard Grade A tomato). Prices are THB/kg. */
-export const WEIGHT_PER_FRUIT_KG = 0.15;
+/* ── Tomato Varieties ─────────────────────────────────────── */
+export type VarietyRegion = 'TH' | 'UK' | 'CN';
+
+export interface TomatoVariety {
+  id: string;
+  name: string;
+  nameLocal: string;
+  region: VarietyRegion;
+  weightMinG: number;
+  weightMaxG: number;
+  /** Default base price THB/kg (user can adjust) */
+  defaultPricePerKg: number;
+  desc: string;
+}
+
+export const TOMATO_VARIETIES: TomatoVariety[] = [
+  // ── Thailand ──────────────────────────────────────────
+  {
+    id: 'th-peach', name: 'Peach Tomato', nameLocal: 'มะเขือเทศท้อ',
+    region: 'TH', weightMinG: 80, weightMaxG: 140,
+    defaultPricePerKg: 120,
+    desc: 'เนื้อแน่น หนังบาง ทรงกลมรี นิยมใช้ทำอาหารและซอส',
+  },
+  {
+    id: 'th-sida', name: 'Sida Tomato', nameLocal: 'มะเขือเทศสีดา',
+    region: 'TH', weightMinG: 40, weightMaxG: 60,
+    defaultPricePerKg: 200,
+    desc: 'ผลเล็กทรงยาว สีแดงสด รสหวานอมเปรี้ยว นิยมกินสด',
+  },
+  {
+    id: 'th-sisaket', name: 'Sisaket Tomato', nameLocal: 'มะเขือเทศศรีสะเกษ',
+    region: 'TH', weightMinG: 20, weightMaxG: 30,
+    defaultPricePerKg: 150,
+    desc: 'พันธุ์จิ๋วจากศรีสะเกษ สีแดงเข้ม รสเปรี้ยวจัด ให้ผลดก',
+  },
+  // ── United Kingdom ────────────────────────────────────
+  {
+    id: 'uk-beef', name: 'Beefsteak', nameLocal: 'Beefsteak Tomato',
+    region: 'UK', weightMinG: 200, weightMaxG: 400,
+    defaultPricePerKg: 250,
+    desc: 'Classic large beefsteak, rich red, dense flesh, ideal for slicing',
+  },
+  {
+    id: 'uk-marmande', name: 'Marmande', nameLocal: 'Marmande',
+    region: 'UK', weightMinG: 180, weightMaxG: 250,
+    defaultPricePerKg: 220,
+    desc: 'French heirloom, ribbed shape, deep crimson, full flavour',
+  },
+  {
+    id: 'uk-costoluto', name: 'Costoluto', nameLocal: 'Costoluto Fiorentino',
+    region: 'UK', weightMinG: 150, weightMaxG: 300,
+    defaultPricePerKg: 230,
+    desc: 'Italian heirloom, deeply ribbed, intense red, rich aroma',
+  },
+  // ── China ─────────────────────────────────────────────
+  {
+    id: 'cn-dahong', name: 'Big Red', nameLocal: '大红番茄',
+    region: 'CN', weightMinG: 150, weightMaxG: 250,
+    defaultPricePerKg: 140,
+    desc: '标准大红番茄，圆形，产量高，市场常见品种',
+  },
+  {
+    id: 'cn-yingguo', name: 'Hard Fruit Red', nameLocal: '硬果红番茄',
+    region: 'CN', weightMinG: 140, weightMaxG: 220,
+    defaultPricePerKg: 150,
+    desc: '果肉紧实，耐运输，厚壁红色，适合长途销售',
+  },
+  {
+    id: 'cn-daguo', name: 'Large Fruit', nameLocal: '大果番茄',
+    region: 'CN', weightMinG: 200, weightMaxG: 350,
+    defaultPricePerKg: 180,
+    desc: '大果型番茄，深红色，汁多肉厚，口感优质',
+  },
+];
+
+/**
+ * Grade multipliers applied to the variety base price.
+ * Grade A = full price, B = 85%, C = 65%, Unripe = 25%, Rotten/Wilted = 0.
+ */
+export const GRADE_PRICE_MULTIPLIER: Record<Grade, number> = {
+  gradeA: 1.0,
+  gradeB: 0.85,
+  gradeC: 0.65,
+  unripe: 0.25,
+  rotten: 0,
+  wilted: 0,
+};
+
+/** Derive per-grade prices from a base price/kg. */
+export function basePriceToGradePrices(basePerKg: number): Record<Grade, number> {
+  const prices = {} as Record<Grade, number>;
+  for (const g of ALL_GRADES) {
+    prices[g] = Math.round(basePerKg * GRADE_PRICE_MULTIPLIER[g]);
+  }
+  return prices;
+}
+
+/** How many fruits make 1 kg (returns [max-count, min-count] for [minWeight, maxWeight]). */
+export function fruitsPerKg(v: TomatoVariety): [number, number] {
+  return [
+    Math.ceil(1000 / v.weightMinG),   // more small fruits needed
+    Math.ceil(1000 / v.weightMaxG),    // fewer large fruits needed
+  ];
+}
 
 export const GRADE_PRICES: Record<Grade, number> = {
   gradeA: 240,
@@ -94,7 +196,10 @@ interface AppContextType {
   dismissAlert: (index: number) => void;
   gradingHistory: GradingResult[];
   gradePrices: Record<Grade, number>;
-  setGradePrices: (prices: Record<Grade, number>) => void;
+  basePricePerKg: number;
+  setBasePricePerKg: (price: number) => void;
+  selectedVarietyId: string;
+  selectVariety: (id: string) => void;
   // Farm traceability
   activeFarm: FarmInfo | null;
   setActiveFarm: (farm: FarmInfo | null) => void;
@@ -130,8 +235,24 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
   const [alerts, setAlerts] = useState<AnomalyAlert[]>([]);
   const [gradingHistory, setGradingHistory] = useState<GradingResult[]>([]);
-  const [gradePrices, setGradePrices] = useState<Record<Grade, number>>({ ...GRADE_PRICES });
+  const defaultVariety = TOMATO_VARIETIES[0];
+  const [selectedVarietyId, setSelectedVarietyId] = useState(defaultVariety.id);
+  const [basePricePerKg, setBasePricePerKgRaw] = useState(defaultVariety.defaultPricePerKg);
+  const [gradePrices, setGradePrices] = useState<Record<Grade, number>>(basePriceToGradePrices(defaultVariety.defaultPricePerKg));
   const [activeFarm, setActiveFarm] = useState<FarmInfo | null>(null);
+
+  const setBasePricePerKg = useCallback((price: number) => {
+    setBasePricePerKgRaw(price);
+    setGradePrices(basePriceToGradePrices(price));
+  }, []);
+
+  const selectVariety = useCallback((id: string) => {
+    const v = TOMATO_VARIETIES.find((t) => t.id === id);
+    if (!v) return;
+    setSelectedVarietyId(id);
+    setBasePricePerKgRaw(v.defaultPricePerKg);
+    setGradePrices(basePriceToGradePrices(v.defaultPricePerKg));
+  }, []);
 
   const socketRef = useRef<Socket | null>(null);
 
@@ -205,7 +326,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         latestGrading, currentFruitType, setCurrentFruitType,
         machineState, sendMachineCommand,
         isSimulating, toggleSimulation, resetCounters,
-        alerts, dismissAlert, gradingHistory, gradePrices, setGradePrices,
+        alerts, dismissAlert, gradingHistory, gradePrices,
+        basePricePerKg, setBasePricePerKg,
+        selectedVarietyId, selectVariety,
         activeFarm, setActiveFarm,
       }}
     >

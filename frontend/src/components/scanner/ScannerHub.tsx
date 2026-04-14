@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useCallback, useEffect } from 'react';
-import { useApp, Grade, ALL_GRADES, WEIGHT_PER_FRUIT_KG } from '@/contexts/AppContext';
+import { useApp, Grade, ALL_GRADES, TOMATO_VARIETIES } from '@/contexts/AppContext';
 import { classifyFrame, GradingPrediction, BBox } from '@/lib/grading';
 
 const GRADE_BORDER: Record<Grade, string> = {
@@ -23,7 +23,8 @@ const GRADE_BOX_COLORS: Record<Grade, string> = {
 };
 
 export default function ScannerHub() {
-  const { t, socket, selectedModel, isSimulating, toggleSimulation, resetCounters, latestGrading, counters, activeFarm } = useApp();
+  const { t, socket, selectedModel, isSimulating, toggleSimulation, resetCounters, latestGrading, counters, activeFarm, selectedVarietyId } = useApp();
+  const sv = TOMATO_VARIETIES.find((x) => x.id === selectedVarietyId) || TOMATO_VARIETIES[0];
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -157,7 +158,7 @@ export default function ScannerHub() {
         <div className="flex items-center gap-3">
           <h2 className="text-lg sm:text-xl font-bold text-primary tracking-tight">{t.scanner.title}</h2>
           <span className="hidden sm:inline text-[11px] font-medium px-3 py-1 rounded-full tabular-nums" style={{ background: 'var(--bg-input)', color: 'var(--text-secondary)' }}>
-            {counters.total.toLocaleString()} fruits ({(counters.total * WEIGHT_PER_FRUIT_KG).toFixed(2)} kg)
+            {counters.total.toLocaleString()} fruits ({(counters.total * sv.weightMinG / 1000).toFixed(2)}–{(counters.total * sv.weightMaxG / 1000).toFixed(2)} kg)
           </span>
         </div>
         <div className="flex gap-2 flex-wrap justify-end">
